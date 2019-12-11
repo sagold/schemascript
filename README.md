@@ -6,6 +6,20 @@
 
 This is a simple utility to remove redundant json-schema syntax
 
+## helpers
+
+export| type    | result
+------|---------|-----------------
+i()   | integer | { type: "integer" }
+o()   | object  | { type: "object" }
+n()   | number  | { type: "number" }
+b()   | boolean | { type: "boolean" }
+a()   | array   | { type: "array" }
+s()   | string  | { type: "string" }
+e()   | enum    | { enum: [] }
+
+Each method takes any number of objects as input, merging them to the exported schema
+
 ## examples
 
 ```js
