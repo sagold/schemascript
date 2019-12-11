@@ -1,6 +1,6 @@
 import "mocha";
 import assert from "assert";
-import sc, { o, a, s, b, n, i, e, $def, defs } from "../src/index";
+import { o, a, s, b, n, i, e, $def, defs } from "../index";
 
 
 it("should generate json-schema", () => {

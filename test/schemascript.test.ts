@@ -1,6 +1,6 @@
 import "mocha";
 import assert from "assert";
-import sc, { i, o, n, b, a, s, e } from "../src/index";
+import sc, { i, o, n, b, a, s, e } from "../index";
 
 
 describe("schemascript basics", () => {

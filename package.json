@@ -1,14 +1,30 @@
 {
   "name": "schemascript",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.ts",
+  "description": "build json-schema definitions using helper functions",
+  "main": "dist/schemascript.es5.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.test.ts"
+    "dist": "rm -rf dist; webpack",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "prepublish": "npm run dist && npm run test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "json-schema",
+    "generate",
+    "utility",
+    "helper",
+    "create",
+    "javascript",
+    "browser",
+    "nodejs"
+  ],
+  "author": "Sascha Goldhofer <noreply@saschagoldhofer.de> (https://github.com/sagold/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sagold/schemascript.git"
+  },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.16",
@@ -18,7 +34,10 @@
     "eslint-plugin-mocha": "^6.2.2",
     "eslint-plugin-node": "^10.0.0",
     "mocha": "^6.2.2",
+    "ts-loader": "^6.2.1",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }
