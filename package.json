@@ -1,5 +1,5 @@
 {
-  "name": "schemascript",
+  "name": "@sagold/schemascript",
   "version": "1.0.0",
   "description": "build json-schema definitions using helper functions",
   "main": "dist/schemascript.es5.js",
