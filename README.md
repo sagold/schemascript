@@ -2,6 +2,8 @@
 
 > build json-schema definitions using helper functions
 
+`yarn install @sagold/schemascript`
+
 This is a simple utility to remove redundant json-schema syntax
 
 ## examples
