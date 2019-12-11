@@ -1,5 +1,11 @@
 type JSONSchemaObject = {
-	type?: string;
+	[p: string]: any
+};
+
+type JSONSchemaType = {
+	isType: boolean;
+	$required(): JSONSchemaType;
+	isRequired?: boolean;
 	[p: string]: any
 };
 
@@ -7,9 +13,13 @@ type JSTypes = "object"|"array"|"number"|"string"|"boolean"|"null"|"undefined";
 
 
 export const config = {
+	/** defined identifier for types */
 	IS_TYPE: "isType",
+	/** defined utility to mark as required property */
 	SET_REQUIRED: "$required",
+	/** defined identifier for required property */
 	IS_REQUIRED: "isRequired",
+	/** json-schema definitions-property */
 	DEFINITIONS: "definitions"
 };
 
@@ -60,13 +70,15 @@ function addProperties(objects: Array<JSONSchemaObject>): Array<JSONSchemaObject
 	return objects;
 }
 
-export function o(...args:Array<JSONSchemaObject>): JSONSchemaObject {
+/** create an object-schema */
+export function o(...args:Array<JSONSchemaObject>): JSONSchemaType {
 	args = addProperties(args);
 	const schema = flagType(Object.assign({}, ...args, { type: "object" }));
 	return addRequired(schema, schema.properties);
 }
 
-export function a(...args: Array<JSONSchemaObject|Array<JSONSchemaObject>>): JSONSchemaObject {
+/** create an array-schema */
+export function a(...args: Array<JSONSchemaObject|Array<JSONSchemaObject>>): JSONSchemaType {
 	// add to default-items for array-input or type-input
 	args = args.map(schema => {
 		if (Array.isArray(schema) || schema[config.IS_TYPE]) { return { items: schema }; }
@@ -76,7 +88,8 @@ export function a(...args: Array<JSONSchemaObject|Array<JSONSchemaObject>>): JSO
 	return schema;
 }
 
-export function e(...args: Array<JSONSchemaObject|Array<JSONSchemaObject>>): JSONSchemaObject {
+/** create an enum-schema */
+export function e(...args: Array<JSONSchemaObject|Array<JSONSchemaObject>>): JSONSchemaType {
 	args = args.map(schema => {
 		if (Array.isArray(schema)) { return { enum: schema }; }
 		return schema;
@@ -92,38 +105,45 @@ export function e(...args: Array<JSONSchemaObject|Array<JSONSchemaObject>>): JSO
 	return schema;
 }
 
-export function s(...args: Array<JSONSchemaObject|string>): JSONSchemaObject {
+/** create a string-schema */
+export function s(...args: Array<JSONSchemaObject|string>): JSONSchemaType {
 	args = args.map(a => getType(a) === "string" ? { default: a } : a);
 	return flagType(Object.assign({}, ...args, { type: "string" }));
 }
 
-export function n(...args: Array<JSONSchemaObject|number>): JSONSchemaObject {
+/** create a number-schema */
+export function n(...args: Array<JSONSchemaObject|number>): JSONSchemaType {
 	args = args.map(a => getType(a) === "number" ? { default: a } : a);
 	return flagType(Object.assign({}, ...args, { type: "number" }));
 }
 
-export function i(...args: Array<JSONSchemaObject|number>): JSONSchemaObject {
+/** create an integer-schema */
+export function i(...args: Array<JSONSchemaObject|number>): JSONSchemaType {
 	return flagType(Object.assign(n(...args), { type: "integer" }));
 }
 
-export function b(...args: Array<JSONSchemaObject|boolean>): JSONSchemaObject {
+/** create a boolean-schema */
+export function b(...args: Array<JSONSchemaObject|boolean>): JSONSchemaType {
 	args = args.map(a => getType(a) === "boolean" ? { default: a } : a);
 	return flagType(Object.assign({}, ...args, { type: "boolean" }));
 }
 
-export function $ref(...args: Array<JSONSchemaObject|string>): JSONSchemaObject {
+/** create a reference { $ref: "<input-string>" } */
+export function $ref(...args: Array<JSONSchemaObject|string>): JSONSchemaType {
 	args = args.map(a => getType(a) === "string" ? { $ref: a } : a);
 	return flagType(Object.assign({}, ...args));
 }
 
-export function $def(...args: Array<JSONSchemaObject|string>): JSONSchemaObject {
+/** create a reference to definitions { $ref: "#/definitions/<input-string>" } */
+export function $def(...args: Array<JSONSchemaObject|string>): JSONSchemaType {
 	args = args.map(a =>
 		getType(a) === "string" ? { $ref: `#/${config.DEFINITIONS}/${a.replace(/^\//, "")}` } : a
 	);
 	return flagType(Object.assign({}, ...args));
 }
 
-export function defs(definitions) {
+/** create definitions { definitions: <input-object> } */
+export function defs(definitions: { [id: string ]: JSONSchemaObject }): JSONSchemaObject {
 	return { [config.DEFINITIONS]: definitions };
 }
 
