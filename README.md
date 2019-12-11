@@ -23,7 +23,7 @@ Each method takes any number of objects as input, merging them to the exported s
 ## examples
 
 ```js
-import { i, o, n, b, a, s, e } from "../src/index";
+import { i, o, n, b, a, s, e } from "@sagold/schemascript";
 
 s("default-value");
 // { type: "string", default: "default-value" }
