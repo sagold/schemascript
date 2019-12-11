@@ -11,7 +11,7 @@ type JSONSchemaType = {
 
 type JSTypes = "object"|"array"|"number"|"string"|"boolean"|"null"|"undefined";
 
-
+/* modifiable schemascript configuration */
 export const config = {
 	/** defined identifier for types */
 	IS_TYPE: "isType",
@@ -147,9 +147,10 @@ export function defs(definitions: { [id: string ]: JSONSchemaObject }): JSONSche
 	return { [config.DEFINITIONS]: definitions };
 }
 
-// oaesinb boasine ionbase baseion
-const types = { o, a, e, s, i, n, b, $ref };
+// ionbase
+const types = { i, o, n, b, a, s, e, $ref, defs, $def };
 
+/** helper function calling json-type-helpers via string. e.g. schemascript("array", { minItems: 1 })  */
 export default function schemascript(type: string, ...args: Array<JSONSchemaObject>) {
 	return types[type[0]](...args);
 }
