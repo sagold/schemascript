@@ -1,6 +1,6 @@
 {
   "name": "@sagold/schemascript",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "build json-schema definitions using helper functions",
   "main": "dist/schemascript.es5.js",
   "types": "dist/index.d.ts",
